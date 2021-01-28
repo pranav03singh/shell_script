@@ -1,0 +1,33 @@
+#! /bin/bash
+
+hour=18
+mins=19
+utc_hour_offset=5
+utc_min_offset=0
+
+localHour=$(($hour + $utc_hour_offset))
+localMin=$(($mins + $utc_min_offset))
+
+if [ $localHour -ge 24 ]
+then
+  localHour=$(($localHour - 24))
+fi
+
+if [ $localMin -ge 60 ]
+then
+  localMin=$(($localMin - 60))
+  localHour=$(($localHour + 1))
+fi
+
+currentHour=$(date +"%H")
+currentMin=$(date +"%M")
+
+
+if [[ $localHour == $currentHour && $localMin == $currentMin ]]
+then
+   echo "Current Time $currentHour $currentMin"
+   echo "Local Time $localHour $localMin"
+
+   echo "Its time to shutdown"
+   shutdown -h now
+fi
